@@ -1,0 +1,103 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=pos_backend
+      - POSTGRES_USER=pos_user
+      - POSTGRES_PASSWORD=pos_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    network_mode: "host"
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=production
+    depends_on:
+      - postgres 
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend worker -l info -Q default
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=production 
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celeryworker2:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend worker -l info -Q priority
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=production 
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend beat --loglevel=info
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=production 
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  nginx:
+    image: nginx:1.25-alpine
+    depends_on:
+      - backend
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./staticfiles:/app/staticfiles:ro
+      - ./media:/app/media:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    network_mode: "host"
+
+volumes:
+  static_volume:
+  postgres_data: 

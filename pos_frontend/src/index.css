@@ -1,0 +1,361 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-black-400: #dfe0e0;
+  --color-primary: #0060AC;
+  --color-primary_light: #49789e;
+  --color-success: #2CBDB9;
+  --color-success-bg: #2CBDB926;
+  --color-gray-bg: #f5f5f5;
+  --color-danger: #FA896B;
+  --color-danger-bg: #FA896B26;
+  --color-pending: #ffb302;
+  --color-in-progress: #00b0ff;
+  --color-completed: #00c853;
+  --color-cancelled: #ff1744;
+  --color-status-standby: #2dccff;
+  --color-status-critical: #ff3838;
+  --color-trclr: #F3F6F9;
+  --font-dm-sans: "DM Sans", sans-serif;
+}
+
+.custom-input-style {
+  @apply w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-primary focus:outline-none;
+}
+/* Hide default checkbox */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--color-primary);
+  border-radius: 4px;
+  position: relative;
+  cursor: pointer;
+}
+
+/* Style when checked */
+input[type="checkbox"]:checked {
+  background-color: var(--color-primary);
+  /* 👈 Your custom color */
+  border-color: var(--color-primary);
+}
+
+/* Optional: Add checkmark using pseudo-element */
+input[type="checkbox"]:checked::after {
+  content: '✔';
+  color: white;
+  font-size: 12px;
+  position: absolute;
+  top: -2px;
+  left: 3px;
+}
+
+
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+/* Scrollbar Track (background) */
+*::-webkit-scrollbar,
+.scrollbar-custom-style::-webkit-scrollbar,
+aside::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+/* Scrollbar Thumb (the draggable part) */
+*::-webkit-scrollbar-thumb,
+.scrollbar-custom-style::-webkit-scrollbar-thumb,
+aside::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  /* light semi-transparent */
+  border-radius: 10px;
+}
+
+/* Scrollbar Thumb on Hover */
+*::-webkit-scrollbar-thumb:hover,
+.scrollbar-custom-style::-webkit-scrollbar-thumb:hover,
+aside::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-primary);
+  /* darker on hover */
+}
+
+/* Optional: Scrollbar Track (background) */
+*::-webkit-scrollbar-track,
+.scrollbar-custom-style::-webkit-scrollbar-track,
+aside::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Line clamp utilities */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.hamburger {
+  cursor: pointer;
+}
+
+.hamburger input {
+  display: none;
+}
+
+.hamburger svg {
+  height: 2.5em;
+  transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.5;
+  transition: stroke-dasharray 600ms cubic-bezier(0.4, 0, 0.2, 1),
+    stroke-dashoffset 600ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-top-bottom {
+  stroke-dasharray: 12 63;
+}
+
+.hamburger input:checked+svg {
+  transform: rotate(-45deg);
+}
+
+.hamburger input:checked+svg .line-top-bottom {
+  stroke-dasharray: 20 300;
+  stroke-dashoffset: -32.42;
+}
+
+@media (min-width: 768px) {
+  .md-w-remaining {
+    width: calc(100% - 242px);
+  }
+}
+
+
+/* ========== Popup CSS =========== */
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow-y: auto;
+  /* Enable scrolling for large content */
+  overflow-x: hidden;
+  /* Prevent horizontal scrolling */
+  z-index: 1000;
+  /* Ensure it appears above other content */
+}
+
+.popup-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(10px) !important;
+  /* More elegant blur */
+  -webkit-backdrop-filter: blur(6px);
+  /* Safari support */
+  z-index: -1;
+}
+
+.popup-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  min-height: 100px;
+  min-width: 300px;
+  max-height: 95svh;
+  max-width: 75svw;
+  border-radius: 10px;
+}
+
+
+@media (max-width: 1400px) {
+
+  /* Medium screens (small tablets, etc.) */
+  .popup-container {
+    max-width: 85svw;
+    /* Adjust max width for medium screens */
+  }
+}
+
+@media (max-width: 1040px) {
+
+  /* Medium screens (small tablets, etc.) */
+  .popup-container {
+    max-width: 95svw;
+    /* Adjust max width for medium screens */
+  }
+}
+
+@media (max-width: 480px) {
+
+  /* Small screens (phones, etc.) */
+  .popup-container {
+    width: 99vw;
+    /* Adjust max width for small screens */
+  }
+}
+
+.popup-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 20;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.popup-form-container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 40px;
+  background-color: var(--popup-bg-color);
+  backdrop-filter: blur(var(--blur-24px));
+  border-radius: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+[data-btnbelowtooltip] {
+  position: relative;
+  cursor: pointer;
+}
+
+/* Tooltip box */
+[data-btnbelowtooltip]::after {
+  content: attr(data-btnbelowtooltip);
+  position: absolute;
+  /* Use absolute positioning */
+  bottom: calc(-40px);
+  left: 50px;
+  /* Adjust this to position the arrow just below the btnBelowTooltip */
+  transform: translateX(-50%) translateY(4px);
+  background-color: rgb(0, 0, 0);
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: wrap;
+  /* Allow wrapping */
+  font-size: 13px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10000;
+  /* Ensure the btnBelowTooltip appears on top */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  max-width: 180px;
+  width: max-content;
+  /* Grows as needed, but within max-width */
+  overflow-wrap: break-word;
+  line-height: 1.4;
+}
+
+
+/* Show tooltip on hover */
+[data-btnbelowtooltip]:hover::after {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+@media (max-width: 768px) {
+  [data-btnbelowtooltip]::after {
+    display: none !important;
+  }
+}
+
+@keyframes vibrate {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+@keyframes slide-up {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animate-enter {
+  0% { transform: translate3d(0, -100%, 0); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+@keyframes animate-leave {
+  0% { transform: translate3d(0, 0, 0); opacity: 1; }
+  100% { transform: translate3d(0, -100%, 0); opacity: 0; }
+}
+
+.vibrate {
+  animation: vibrate 0.3s linear infinite;
+}
+
+.animate-enter {
+  animation: animate-enter 0.35s ease-in-out forwards;
+}
+
+.animate-leave {
+  animation: animate-leave 0.35s ease-in-out forwards;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes animate-enter {
+  0% { transform: translate3d(0, -100%, 0); opacity: 0; }
+  100% { transform: translate3d(0, 0, 0); opacity: 1; }
+}
+
+@keyframes animate-leave {
+  0% { transform: translate3d(0, 0, 0); opacity: 1; }
+  100% { transform: translate3d(0, -100%, 0); opacity: 0; }
+}
+
+.animate-enter {
+  animation: animate-enter 0.35s ease-in-out forwards;
+}
+
+.animate-leave {
+  animation: animate-leave 0.35s ease-in-out forwards;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+

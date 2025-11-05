@@ -1,0 +1,15 @@
+FROM python:3.12.6-slim
+
+WORKDIR /app
+
+COPY requirements.txt ./
+RUN pip install --upgrade pip && pip install -r requirements.txt && pip install daphne
+
+COPY . .
+
+ENV DJANGO_STATIC_ROOT=/app/static
+
+# Run migrations and collect static files before starting
+CMD ["/bin/sh", "-c", "python manage.py migrate && python manage.py collectstatic --noinput && daphne -b 0.0.0.0 -p 8000 pos_backend.asgi:application"]
+
+EXPOSE 8000 

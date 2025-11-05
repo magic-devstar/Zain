@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticket Approval Required</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        .email-header {
+            background-color: #22A8AA;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .email-body {
+            padding: 30px 25px;
+        }
+        .greeting {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .message {
+            margin-bottom: 25px;
+            font-size: 16px;
+        }
+        .action-button {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            background-color: #22A8AA;
+            color: white !important;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #438e8f;
+        }
+        .email-footer {
+            background-color: #f2f2f2;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        .help-text {
+            margin-top: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>Ticket Approval Required</h1>
+        </div>
+        <div class="email-body">
+            <div class="greeting">Dear {{user.name|default:"Valued Customer"}},</div>
+            
+            <div class="message">
+                Your service ticket #{{ticket.id}} requires your approval. Please review the details and take action.
+            </div>
+            
+            <div class="message">
+                <strong>Ticket ID:</strong> #{{ticket.id}}<br>
+                <strong>Ticket Title:</strong> {{ticket.title}}<br>
+                <strong>Created On:</strong> {{ticket.created_at|date:"F j, Y"}}
+            </div>
+            
+            <div class="action-button">
+                <a href="{{frontend_url}}" class="button" target="_blank">Review Ticket Now</a>
+            </div>
+            
+            <div class="help-text">
+                If you have any questions or need assistance, please contact our support team.
+            </div>
+        </div>
+        <div class="email-footer">
+            &copy; T Technologies INC. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>

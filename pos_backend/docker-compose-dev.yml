@@ -1,0 +1,74 @@
+version: '3.9'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=development
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celeryworker:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend worker -l info -Q default
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=development
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celeryworker2:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend worker -l info -Q priority
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=development
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+  celerybeat:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    command: celery -A pos_backend beat --loglevel=info
+    env_file:
+      - .env
+    environment:
+      - REDIS_HOST=localhost
+      - REDIS_PORT=6379
+      - DJANGO_ENV=development
+    volumes:
+      - ./staticfiles:/app/staticfiles
+      - ./db:/app/db
+      - ./media:/app/media
+    network_mode: "host"
+
+volumes:
+  static_volume: 

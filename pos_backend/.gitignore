@@ -1,0 +1,21 @@
+# Ignore virtual environments
+venv/
+vnv/
+env/
+
+# Ignore media files (uploads, etc.)
+media/
+
+db.sqlite3
+
+# Ignore the SQLite DB
+pos_backend/db.sqlite3
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+
+db.sqlite3
+
+.env
